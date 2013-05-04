@@ -43,6 +43,7 @@ int main( int argc, char* args[] )
 
     SetLevelMap(map, 1);
 
+    ApplySurface(-300, -300, images[BACKGROUNG], images[SCREEN]);
     ApplyGrid(map, images, clips);
     ApplyMap(map, images, clips);
 
@@ -70,7 +71,9 @@ int main( int argc, char* args[] )
             }
             if(click.IsPress(event)==LEFTPRESS){
                 int qqq[2]={1, 0};
-                if(!DisplayChange(map, 0, 0, qqq, images, clips)) return 1;
+                //if(!DisplayChangeFail(map, 0, 0, qqq, images, clips)) return 1;
+                //if(!DisplayChange(map, 0, 0, qqq, images, clips)) return 1;
+                if(!ChangeCandy(map, 0, 0, qqq, images, clips)) return 1;
             }
         }
     }

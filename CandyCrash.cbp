@@ -14,13 +14,13 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
-					<Add directory="../SDL-1.2.15/include" />
+					<Add directory="SDL-1.2.15/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-lmingw32 -lSDLmain -lSDL" />
 					<Add option="-lSDL_image" />
 					<Add option="-lSDL_ttf" />
-					<Add directory="../SDL-1.2.15/lib" />
+					<Add directory="SDL-1.2.15/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">

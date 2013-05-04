@@ -7,6 +7,6 @@
 #define MAP_X 150
 #define MAP_Y 10
 //The frames per second
-#define FRAMES_PER_SECOND 20
+#define FRAMES_PER_SECOND 30
 
 #endif // DEFINECONST_H_INCLUDED

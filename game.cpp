@@ -95,6 +95,19 @@ void ApplyGrid(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30])
     }
 }
 
+bool CheckGridRange(CGrid map[][10], int m, int n, int direct[])
+{
+    if(map[m][n].kind == NO_GRID || map[m+direct[0]][n+direct[1]].kind == NO_GRID) return false;
+    return true;
+}
+
+bool CheckChange(CGrid map[][10], int m, int n, int direct[])
+{
+    if(!CheckGridRange(map, m, n, direct)) return false;
+    if(map[m][n].candy.kind != NO_CANDY && map[m+direct[0]][n+direct[1]].candy.kind != NO_CANDY) return true;
+    return false;
+}
+
 bool DisplayChange(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30])
 {
     Timer time;
@@ -122,5 +135,86 @@ bool DisplayChange(CGrid map[][10], int m, int n, int direct[], SDL_Surface *ima
             SDL_Delay( ( 1000 / FRAMES_PER_SECOND ) - time.getTicks() );
         }
     }
+    ApplySurface(MAP_X+80*m, MAP_Y+70*n, images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
+    ApplySurface(MAP_X+80*(m+direct[0]), MAP_Y+70*(n+direct[1]), images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
+    ApplySurface( (2+MAP_X+80*(m+direct[0])), (2+MAP_Y+70*(n+direct[1])), images[CANDYS], images[SCREEN], TransCandyClip(map[m][n].candy, clips) );
+    ApplySurface( (2+MAP_X+80*m), (2+MAP_Y+70*n), images[CANDYS], images[SCREEN], TransCandyClip(map[m+direct[0]][n+direct[1]].candy, clips) );
+    if( SDL_Flip( images[SCREEN] ) == -1 )
+    {
+        return false;
+    }
+    return true;
+}
+
+bool DisplayChangeFail(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30])
+{
+    Timer time;
+    for(int k=0; k<(FRAMES_PER_SECOND*1); k++){
+        time.start();
+
+        ApplySurface(-300, -300, images[BACKGROUNG], images[SCREEN]);
+        ApplyGrid(map, images, clips);
+        ApplyMap(map, images, clips);
+        ApplySurface(MAP_X+80*m, MAP_Y+70*n, images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
+        ApplySurface(MAP_X+80*(m+direct[0]), MAP_Y+70*(n+direct[1]), images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
+
+        double movex = 80.f*direct[0]/FRAMES_PER_SECOND/1;
+        double movey = 70.f*direct[1]/FRAMES_PER_SECOND/1;
+        ApplySurface( (2+MAP_X+80*m)+k*movex, (2+MAP_Y+70*n)+k*movey, images[CANDYS], images[SCREEN], TransCandyClip(map[m][n].candy, clips) );
+        ApplySurface( (2+MAP_X+80*(m+direct[0]))-k*movex, (2+MAP_Y+70*(n+direct[1]))-k*movey, images[CANDYS], images[SCREEN], TransCandyClip(map[m+direct[0]][n+direct[1]].candy, clips) );
+
+        if( SDL_Flip( images[SCREEN] ) == -1 )
+        {
+            return false;
+        }
+        if(time.getTicks() < 1000 / FRAMES_PER_SECOND)
+        {
+            SDL_Delay( ( 1000 / FRAMES_PER_SECOND ) - time.getTicks() );
+        }
+    }
+
+    for(int k=0; k<(FRAMES_PER_SECOND*1); k++){
+        time.start();
+
+        ApplySurface(-300, -300, images[BACKGROUNG], images[SCREEN]);
+        ApplyGrid(map, images, clips);
+        ApplyMap(map, images, clips);
+        ApplySurface(MAP_X+80*m, MAP_Y+70*n, images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
+        ApplySurface(MAP_X+80*(m+direct[0]), MAP_Y+70*(n+direct[1]), images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
+
+        double movex = 80.f*direct[0]/FRAMES_PER_SECOND/1;
+        double movey = 70.f*direct[1]/FRAMES_PER_SECOND/1;
+        ApplySurface( (2+MAP_X+80*(m+direct[0]))-k*movex, (2+MAP_Y+70*(n+direct[0]))-k*movey, images[CANDYS], images[SCREEN], TransCandyClip(map[m][n].candy, clips) );
+        ApplySurface( (2+MAP_X+80*m)+k*movex, (2+MAP_Y+70*n)+k*movey, images[CANDYS], images[SCREEN], TransCandyClip(map[m+direct[0]][n+direct[1]].candy, clips) );
+
+        if( SDL_Flip( images[SCREEN] ) == -1 )
+        {
+            return false;
+        }
+        if(time.getTicks() < 1000 / FRAMES_PER_SECOND)
+        {
+            SDL_Delay( ( 1000 / FRAMES_PER_SECOND ) - time.getTicks() );
+        }
+    }
+
+    ApplySurface(MAP_X+80*m, MAP_Y+70*n, images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
+    ApplySurface(MAP_X+80*(m+direct[0]), MAP_Y+70*(n+direct[1]), images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
+    ApplySurface( (2+MAP_X+80*m), (2+MAP_Y+70*n), images[CANDYS], images[SCREEN], TransCandyClip(map[m][n].candy, clips) );
+    ApplySurface( (2+MAP_X+80*(m+direct[0])), (2+MAP_Y+70*(n+direct[1])), images[CANDYS], images[SCREEN], TransCandyClip(map[m+direct[0]][n+direct[1]].candy, clips) );
+
+    if( SDL_Flip( images[SCREEN] ) == -1 )
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool ChangeCandy(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30])
+{
+    if(!DisplayChange(map, m, n, direct, images, clips)) return false;
+    CCandy temp = map[m][n].candy;
+    map[m][n].candy = map[m+direct[0]][n+direct[1]].candy;
+    map[m+direct[0]][n+direct[1]].candy = temp;
     return true;
 }
