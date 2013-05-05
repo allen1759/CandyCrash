@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <string>
+#include <sstream>
 #include <ctime>
 #include "mySDL.h"
 #include "grid.h"
