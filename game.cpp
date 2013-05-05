@@ -77,7 +77,8 @@ void ApplyMap(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30])
     {
         for(int j=0; j<10; j++)
         {
-            ApplySurface( 2+MAP_X+80*i, 2+MAP_Y+70*j, images[CANDYS], images[SCREEN], TransCandyClip(map[i][j].candy, clips) );
+            if(map[i][j].kind != NO_GRID)
+                ApplySurface( 2+MAP_X+80*i, 2+MAP_Y+70*j, images[CANDYS], images[SCREEN], TransCandyClip(map[i][j].candy, clips) );
         }
     }
 }
@@ -95,15 +96,15 @@ void ApplyGrid(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30])
     }
 }
 
-bool CheckGridRange(CGrid map[][10], int m, int n, int direct[])
+bool isGridRange(CGrid map[][10], int m, int n, int direct[])
 {
     if(map[m][n].kind == NO_GRID || map[m+direct[0]][n+direct[1]].kind == NO_GRID) return false;
     return true;
 }
 
-bool CheckChange(CGrid map[][10], int m, int n, int direct[])
+bool isChange(CGrid map[][10], int m, int n, int direct[])
 {
-    if(!CheckGridRange(map, m, n, direct)) return false;
+    if(!isGridRange(map, m, n, direct)) return false;
     if(map[m][n].candy.kind != NO_CANDY && map[m+direct[0]][n+direct[1]].candy.kind != NO_CANDY) return true;
     return false;
 }
@@ -111,7 +112,6 @@ bool CheckChange(CGrid map[][10], int m, int n, int direct[])
 bool DisplayChange(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30])
 {
     Timer time;
-    SDL_Surface *tmp=0;
     for(int k=0; k<(FRAMES_PER_SECOND*1); k++){
         time.start();
 
@@ -210,11 +210,128 @@ bool DisplayChangeFail(CGrid map[][10], int m, int n, int direct[], SDL_Surface 
     return true;
 }
 
-bool ChangeCandy(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30])
+bool ChangeCandy(CGrid map[][10], int m, int n, int direct[])
 {
-    if(!DisplayChange(map, m, n, direct, images, clips)) return false;
     CCandy temp = map[m][n].candy;
     map[m][n].candy = map[m+direct[0]][n+direct[1]].candy;
     map[m+direct[0]][n+direct[1]].candy = temp;
     return true;
 }
+
+ClearType isClear(CGrid map[][10], int m, int n, int changeDirect[])
+{
+    ChangeCandy(map, m, n, changeDirect);
+    int revChangeDirect[2]={-changeDirect[0], -changeDirect[1]};
+    int x=m, y=n;
+    ClearType curType = NO_CLEAR;
+    int direct[4][2]={{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    for(int i=0; i<4; i++){
+        if(map[m][n].candy.kind == CHOCOLATE_CANDY){
+            if(map[m+changeDirect[0]][n+changeDirect[1]].candy.kind == CHOCOLATE_CANDY){
+
+                return CHOCO_CHO_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == PAPER_SPECIAL){
+
+                return CHOCO_PAP_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == HORIZON_SPECIAL){
+
+                return CHOCO_HOR_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == VERTICAL_SPECIAL){
+
+                return CHOCO_VER_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == NO_SPECIAL){
+
+                return CHOCO_ONE_CLEAR;
+            }
+        }
+        else if(map[m][n].candy.special == PAPER_SPECIAL){
+
+        }
+        else if(map[m][n].candy.special == VERTICAL_SPECIAL){
+
+        }
+        else if(map[m][n].candy.special == HORIZON_SPECIAL){
+
+        }
+    }
+
+    for(int i=0; i<2; i++){                     //Check five four three clear
+        int cnt=1;
+        x=m;
+        y=n;
+        while(0 <= x+direct[i][2] && x+direct[i][2] < 10 &&
+              0 <= y+direct[i][2] && y+direct[i][2] < 10){
+            if(map[x+direct[i][2]][y+direct[i][2]].candy.kind == map[m][n].candy.kind){
+                cnt++;
+                x+=direct[i][2];
+                y+=direct[i][2];
+            }
+            else{
+                break;
+            }
+        }
+        x=m;
+        y=n;
+        while(0 <= x-direct[i][2] && x-direct[i][2] < 10 &&
+              0 <= y-direct[i][2] && y-direct[i][2] < 10){
+            if(map[x-direct[i][2]][y-direct[i][2]].candy.kind == map[m][n].candy.kind){
+                cnt++;
+                x-=direct[i][2];
+                y-=direct[i][2];
+            }
+            else{
+                break;
+            }
+        }
+        if(cnt>=5){
+            ChangeCandy(map, m, n, revChangeDirect);
+            return CHOCO_CLEAR;
+        }
+        else if(cnt>=4 && i==0){
+            ChangeCandy(map, m, n, revChangeDirect);
+            return VER_CLEAR;
+        }
+        else if(cnt>=4 && i==1){
+            ChangeCandy(map, m, n, revChangeDirect);
+            return HOR_CLEAR;
+        }
+        else if(cnt>=3){
+            ChangeCandy(map, m, n, revChangeDirect);
+            return THREE_CLEAR;
+        }
+    }
+    return NO_CLEAR;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

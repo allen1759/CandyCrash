@@ -16,8 +16,8 @@ void SetLevelMap(CGrid map[][10], int level)
         break;
     }
     case 1:{
-        for(int i=0; i<10; i++){
-            for(int j=0; j<10; j++){
+        for(int i=0; i<5; i++){
+            for(int j=0; j<5; j++){
                 map[i][j].kind = NORMAL_GRID;
                 map[i][j].extra = NO_EXTRA;
                 map[i][j].ChangeRect(MAP_X+80*i, MAP_Y+70*j, 80, 70);

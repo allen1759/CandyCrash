@@ -11,15 +11,33 @@ enum surface
     SCREEN, BACKGROUNG, CANDYS, ITEMS
 };
 
+enum ClearType
+{
+    CHOCO_CHO_CLEAR,
+    CHOCO_PAP_CLEAR,
+    CHOCO_HOR_CLEAR,
+    CHOCO_VER_CLEAR,
+    CHOCO_ONE_CLEAR,
+    PAP_HOR_CLEAR,
+    PAP_VER_CLEAR,
+    CHOCO_CLEAR,
+    PAP_CLEAR,
+    HOR_CLEAR,
+    VER_CLEAR,
+    THREE_CLEAR,
+    NO_CLEAR
+};
+
 bool InitGame(SDL_Surface *images[], SDL_Rect clips[][30], TTF_Font * &font);
 void Quit(SDL_Surface *images[], TTF_Font *font);
 SDL_Rect *TransCandyClip(CCandy &candy, SDL_Rect clips[][30]);
 void ApplyMap(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30]);
 void ApplyGrid(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30]);
-bool CheckGridRange(CGrid map[][10], int m, int n, int direct[]);
-bool CheckChange(CGrid map[][10], int m, int n, int direct[]);
+bool isGridRange(CGrid map[][10], int m, int n, int direct[]);
+bool isChange(CGrid map[][10], int m, int n, int direct[]);
 bool DisplayChange(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30]);
 bool DisplayChangeFail(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30]);
-bool ChangeCandy(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30]);
+bool ChangeCandy(CGrid map[][10], int m, int n, int direct[]);
+ClearType isClear(CGrid map[][10], int m, int n, int changeDirect[]);
 
 #endif // GAME_H_INCLUDED

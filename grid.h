@@ -18,19 +18,6 @@ enum GridExtra
     ROPE_EXTRA,
     CHOCO_EXTRA
 };
-enum ClearType
-{
-    CHOCO_CHO_CLEAR,
-    CHOCO_FOUR_CLEAR,
-    CHOCO_TL_CLEAR,
-    CHOCO_ONE_CLEAR,
-    FOUR_TL_CLEAR,
-    FIVE_CLEAR,
-    FOUR_CLEAR,
-    TL_CLEAR,
-    THREE_CLEAR,
-    NO_CLEAR
-};
 
 class CGrid : public CButton
 {
