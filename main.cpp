@@ -75,7 +75,7 @@ int main( int argc, char* args[] )
                 int qqq[2]={1, 0};
                 //if(!DisplayChangeFail(map, 0, 0, qqq, images, clips)) return 1;
                 if(!DisplayChange(map, 0, 0, qqq, images, clips)) return 1;
-                if(!ChangeCandy(map, 0, 0, qqq)) return 1;
+                ChangeCandy(map, 0, 0, qqq);
             }
         }
     }

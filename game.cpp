@@ -112,7 +112,8 @@ bool isChange(CGrid map[][10], int m, int n, int direct[])
 bool DisplayChange(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30])
 {
     Timer time;
-    for(int k=0; k<(FRAMES_PER_SECOND*1); k++){
+    double totalT=0.5;
+    for(int k=0; k<(FRAMES_PER_SECOND*totalT); k++){
         time.start();
 
         ApplySurface(-300, -300, images[BACKGROUNG], images[SCREEN]);
@@ -121,8 +122,8 @@ bool DisplayChange(CGrid map[][10], int m, int n, int direct[], SDL_Surface *ima
         ApplySurface(MAP_X+80*m, MAP_Y+70*n, images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
         ApplySurface(MAP_X+80*(m+direct[0]), MAP_Y+70*(n+direct[1]), images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
 
-        double movex = 80.f*direct[0]/FRAMES_PER_SECOND/1;
-        double movey = 70.f*direct[1]/FRAMES_PER_SECOND/1;
+        double movex = 80.f*direct[0]/FRAMES_PER_SECOND/totalT;
+        double movey = 70.f*direct[1]/FRAMES_PER_SECOND/totalT;
         ApplySurface( (2+MAP_X+80*m)+k*movex, (2+MAP_Y+70*n)+k*movey, images[CANDYS], images[SCREEN], TransCandyClip(map[m][n].candy, clips) );
         ApplySurface( (2+MAP_X+80*(m+direct[0]))-k*movex, (2+MAP_Y+70*(n+direct[1]))-k*movey, images[CANDYS], images[SCREEN], TransCandyClip(map[m+direct[0]][n+direct[1]].candy, clips) );
 
@@ -210,12 +211,11 @@ bool DisplayChangeFail(CGrid map[][10], int m, int n, int direct[], SDL_Surface 
     return true;
 }
 
-bool ChangeCandy(CGrid map[][10], int m, int n, int direct[])
+void ChangeCandy(CGrid map[][10], int m, int n, int direct[])
 {
     CCandy temp = map[m][n].candy;
     map[m][n].candy = map[m+direct[0]][n+direct[1]].candy;
     map[m+direct[0]][n+direct[1]].candy = temp;
-    return true;
 }
 
 ClearType isClear(CGrid map[][10], int m, int n, int changeDirect[])

@@ -37,7 +37,7 @@ bool isGridRange(CGrid map[][10], int m, int n, int direct[]);
 bool isChange(CGrid map[][10], int m, int n, int direct[]);
 bool DisplayChange(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30]);
 bool DisplayChangeFail(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30]);
-bool ChangeCandy(CGrid map[][10], int m, int n, int direct[]);
+void ChangeCandy(CGrid map[][10], int m, int n, int direct[]);
 ClearType isClear(CGrid map[][10], int m, int n, int changeDirect[]);
 
 #endif // GAME_H_INCLUDED
