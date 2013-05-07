@@ -43,8 +43,7 @@ bool DisplayChangeFail(CGrid map[][10], int m, int n, int direct[], SDL_Surface 
 void ChangeCandy(CGrid map[][10], int m, int n, int direct[]);
 ClearType isClear(CGrid map[][10], int m, int n, int changeDirect[]);
 bool isNO_GRID(const CGrid &grid);
-void xy2mn(CGrid map[][10], int x, int y, int &m, int &n);
-bool SelectGrid(CGrid map[][10], SDL_Event &event, SDL_Surface *images[], SDL_Rect clips[][30]);
-
+bool xy2mn(CGrid map[][10], int x, int y, int &m, int &n);
+bool SelectGrid(int &prem, int &pren, CGrid map[][10], SDL_Event &event, SDL_Surface *images[], SDL_Rect clips[][30], bool &isSelect);
 
 #endif // GAME_H_INCLUDED

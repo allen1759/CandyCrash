@@ -312,32 +312,60 @@ bool isNO_GRID(const CGrid &grid)
     return grid.kind==NO_GRID;
 }
 
-void xy2mn(CGrid map[][10], int x, int y, int &m, int &n)
+bool xy2mn(CGrid map[][10], int x, int y, int &m, int &n)
 {
     for(int i=0; i<10; i++){
         for(int j=0; j<10; j++){
             if(isNO_GRID(map[i][j])) continue;
-            if((i+1)*80+MAP_X > x && (j+1)*80+MAP_Y > y){
+            if((i+1)*80+MAP_X > x && (j+1)*70+MAP_Y > y){
                 m=i;
                 n=j;
-                return;
+                return true;
             }
         }
     }
+    return false;
 }
 
-bool SelectGrid(CGrid map[][10], SDL_Event &event, SDL_Surface *images[], SDL_Rect clips[][30])
+bool SelectGrid(int &prem, int &pren, CGrid map[][10], SDL_Event &event, SDL_Surface *images[], SDL_Rect clips[][30], bool &isSelect)
 {
     int m, n;
-    xy2mn(map, event.motion.x, event.motion.y, m, n);
-    if(map[m][n].IsPress(event)==LEFTPRESS)
-    {
-        stringstream ss;
-        string str="test ";
-        ss << str;
-        ss << m << " " << n;
-        SDL_WM_SetCaption( ss.str().c_str(), NULL );
+    if(!xy2mn(map, event.motion.x, event.motion.y, m, n)) return true;
+    if(map[m][n].IsPress(event)==LEFTPRESS){
+        if(!isSelect){
+            ApplySurface(2+MAP_X+80*m, 2+MAP_Y+70*n, images[CANDYS], images[SCREEN], &clips[0][SEPNG]);
+            prem=m;
+            pren=n;
+            isSelect=true;
+            if( SDL_Flip( images[SCREEN] ) == -1 )
+            {
+                return false;
+            }
+        }
+        else{
+            stringstream ss;
+            ss << prem << " " << pren;
+            SDL_WM_SetCaption( ss.str().c_str(), NULL );
+            ApplySurface(MAP_X+80*prem, MAP_Y+70*pren, images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
+            if(map[prem][pren].extra!=NO_EXTRA){}
+            ApplySurface(2+MAP_X+80*prem, 2+MAP_Y+70*pren, images[CANDYS], images[SCREEN], TransCandyClip(map[prem][pren].candy, clips));
+            if( SDL_Flip( images[SCREEN] ) == -1 )
+            {
+                return false;
+            }
+            int fourDirect[4][2]={{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+            int disDirect[2]={m-prem, n-pren};
+            for(int i=0; i<4; i++){
+                if(fourDirect[i][0] == disDirect[0] && fourDirect[i][1] == disDirect[1]){
+                    if(!DisplayChange(map, prem, pren, disDirect, images, clips)) return false;
+                    ChangeCandy(map, prem, pren, disDirect);
+                    break;
+                }
+            }
+            isSelect=false;
+        }
     }
+    return true;
 }
 
 

@@ -282,7 +282,7 @@ MouseButton CButton::IsPress(SDL_Event &event)
             y = event.button.y;
 
             //If the mouse is over the button
-            if( ( x > box.x ) && ( x < box.x + box.w ) && ( y > box.y ) && ( y < box.y + box.h ) )
+            if( ( x >= box.x ) && ( x < box.x + box.w ) && ( y >= box.y ) && ( y < box.y + box.h ) )
             {
                 return LEFTPRESS;
             }
@@ -299,7 +299,7 @@ MouseButton CButton::IsPress(SDL_Event &event)
             y = event.button.y;
 
             //If the mouse is over the button
-            if( ( x > box.x ) && ( x < box.x + box.w ) && ( y > box.y ) && ( y < box.y + box.h ) )
+            if( ( x >= box.x ) && ( x < box.x + box.w ) && ( y >= box.y ) && ( y < box.y + box.h ) )
             {
                 return LEFTRELEASE;
             }
@@ -317,7 +317,7 @@ MouseButton CButton::IsPress(SDL_Event &event)
             y = event.button.y;
 
             //If the mouse is over the button
-            if( ( x > box.x ) && ( x < box.x + box.w ) && ( y > box.y ) && ( y < box.y + box.h ) )
+            if( ( x >= box.x ) && ( x < box.x + box.w ) && ( y >= box.y ) && ( y < box.y + box.h ) )
             {
                 return RIGHTPRESS;
             }
@@ -334,7 +334,7 @@ MouseButton CButton::IsPress(SDL_Event &event)
             y = event.button.y;
 
             //If the mouse is over the button
-            if( ( x > box.x ) && ( x < box.x + box.w ) && ( y > box.y ) && ( y < box.y + box.h ) )
+            if( ( x >= box.x ) && ( x < box.x + box.w ) && ( y >= box.y ) && ( y < box.y + box.h ) )
             {
                 return RIGHTRELEASE;
             }
@@ -354,7 +354,7 @@ bool CButton::IsMoveIn( SDL_Event &event, int &x, int &y )
         y = event.motion.y;
 
         //If the mouse is over the button
-        if( ( x > box.x ) && ( x < box.x + box.w ) && ( y > box.y ) && ( y < box.y + box.h ) )
+        if( ( x >= box.x ) && ( x < box.x + box.w ) && ( y >= box.y ) && ( y < box.y + box.h ) )
         {
             return true;
         }

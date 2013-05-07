@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1367681411 source:e:\github\candycrash\file.cpp
+1367681412 source:e:\github\candycrash\file.cpp
 	"file.h"
 
-1367681411 e:\github\candycrash\file.h
+1367681412 e:\github\candycrash\file.h
 	<SDL/SDL.h>
 
 1367681383 e:\github\candycrash\sdl-1.2.15\include\sdl\sdl.h
@@ -195,17 +195,17 @@
 	"begin_code.h"
 	"close_code.h"
 
-1367681411 source:e:\github\candycrash\grid.cpp
+1367681412 source:e:\github\candycrash\grid.cpp
 	"grid.h"
 
-1367721889 e:\github\candycrash\grid.h
+1367721890 e:\github\candycrash\grid.h
 	"candy.h"
 	"defineConst.h"
 
-1367681411 e:\github\candycrash\candy.h
+1367904292 e:\github\candycrash\candy.h
 	"mySDL.h"
 
-1367681412 e:\github\candycrash\mysdl.h
+1367681414 e:\github\candycrash\mysdl.h
 	<string>
 	"SDL/SDL.h"
 	"SDL/SDL_image.h"
@@ -222,20 +222,21 @@
 	"begin_code.h"
 	"close_code.h"
 
-1367684346 e:\github\candycrash\defineconst.h
+1367684348 e:\github\candycrash\defineconst.h
 
-1367722210 source:e:\github\candycrash\level.cpp
+1367722212 source:e:\github\candycrash\level.cpp
 	"level.h"
 
-1367681411 e:\github\candycrash\level.h
+1367681412 e:\github\candycrash\level.h
 	"grid.h"
 	"defineConst.h"
 
-1367722229 source:e:\github\candycrash\main.cpp
+1367942313 source:e:\github\candycrash\main.cpp
 	<iostream>
 	<cstdio>
 	<cstdlib>
 	<string>
+	<sstream>
 	<ctime>
 	"mySDL.h"
 	"grid.h"
@@ -244,15 +245,17 @@
 	"game.h"
 	"defineConst.h"
 
-1367727331 e:\github\candycrash\game.h
+1367941192 e:\github\candycrash\game.h
 	"mySDL.h"
 	"grid.h"
 	"file.h"
 	"defineConst.h"
+	<string>
+	<sstream>
 
-1367681412 source:e:\github\candycrash\mysdl.cpp
+1367938436 source:e:\github\candycrash\mysdl.cpp
 	"mySDL.h"
 
-1367727851 source:e:\github\candycrash\game.cpp
+1367943863 source:e:\github\candycrash\game.cpp
 	"game.h"
 

@@ -55,11 +55,15 @@ int main( int argc, char* args[] )
         return 1;
     }
 
+    bool isSelect=false;
+    int m, n;
+
     //While the user hasn't quit
     while( quit == false )
     {
         //Start the frame timer
         time.start();
+
 
         //While there's an event to handle
         while( SDL_PollEvent( &event ) )
@@ -71,13 +75,7 @@ int main( int argc, char* args[] )
                 //Quit the program
                 quit = true;
             }
-            SelectGrid(map, event, images, clips);
-            if(click.IsPress(event)==LEFTPRESS){
-                int qqq[2]={1, 0};
-                //if(!DisplayChangeFail(map, 0, 0, qqq, images, clips)) return 1;
-                if(!DisplayChange(map, 0, 0, qqq, images, clips)) return 1;
-                ChangeCandy(map, 0, 0, qqq);
-            }
+            if(!SelectGrid(m, n, map, event, images, clips, isSelect)) return 1;
         }
     }
 
