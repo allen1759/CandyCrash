@@ -6,6 +6,9 @@
 #include "file.h"
 #include "defineConst.h"
 
+#include <string>
+#include <sstream>
+
 enum surface
 {
     SCREEN, BACKGROUNG, CANDYS, ITEMS
@@ -39,5 +42,9 @@ bool DisplayChange(CGrid map[][10], int m, int n, int direct[], SDL_Surface *ima
 bool DisplayChangeFail(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30]);
 void ChangeCandy(CGrid map[][10], int m, int n, int direct[]);
 ClearType isClear(CGrid map[][10], int m, int n, int changeDirect[]);
+bool isNO_GRID(const CGrid &grid);
+void xy2mn(CGrid map[][10], int x, int y, int &m, int &n);
+bool SelectGrid(CGrid map[][10], SDL_Event &event, SDL_Surface *images[], SDL_Rect clips[][30]);
+
 
 #endif // GAME_H_INCLUDED

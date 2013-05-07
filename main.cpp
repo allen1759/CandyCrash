@@ -71,6 +71,7 @@ int main( int argc, char* args[] )
                 //Quit the program
                 quit = true;
             }
+            SelectGrid(map, event, images, clips);
             if(click.IsPress(event)==LEFTPRESS){
                 int qqq[2]={1, 0};
                 //if(!DisplayChangeFail(map, 0, 0, qqq, images, clips)) return 1;

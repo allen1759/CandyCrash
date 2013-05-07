@@ -307,6 +307,39 @@ ClearType isClear(CGrid map[][10], int m, int n, int changeDirect[])
     return NO_CLEAR;
 }
 
+bool isNO_GRID(const CGrid &grid)
+{
+    return grid.kind==NO_GRID;
+}
+
+void xy2mn(CGrid map[][10], int x, int y, int &m, int &n)
+{
+    for(int i=0; i<10; i++){
+        for(int j=0; j<10; j++){
+            if(isNO_GRID(map[i][j])) continue;
+            if((i+1)*80+MAP_X > x && (j+1)*80+MAP_Y > y){
+                m=i;
+                n=j;
+                return;
+            }
+        }
+    }
+}
+
+bool SelectGrid(CGrid map[][10], SDL_Event &event, SDL_Surface *images[], SDL_Rect clips[][30])
+{
+    int m, n;
+    xy2mn(map, event.motion.x, event.motion.y, m, n);
+    if(map[m][n].IsPress(event)==LEFTPRESS)
+    {
+        stringstream ss;
+        string str="test ";
+        ss << str;
+        ss << m << " " << n;
+        SDL_WM_SetCaption( ss.str().c_str(), NULL );
+    }
+}
+
 
 
 
