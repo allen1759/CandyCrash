@@ -343,9 +343,6 @@ bool SelectGrid(int &prem, int &pren, CGrid map[][10], SDL_Event &event, SDL_Sur
             }
         }
         else{
-            stringstream ss;
-            ss << prem << " " << pren;
-            SDL_WM_SetCaption( ss.str().c_str(), NULL );
             ApplySurface(MAP_X+80*prem, MAP_Y+70*pren, images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
             if(map[prem][pren].extra!=NO_EXTRA){}
             ApplySurface(2+MAP_X+80*prem, 2+MAP_Y+70*pren, images[CANDYS], images[SCREEN], TransCandyClip(map[prem][pren].candy, clips));
