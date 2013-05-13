@@ -12,7 +12,9 @@ enum CandyKind
     GREEN_CANDY,
     BLUE_CANDY,
     PURPLE_CANDY,
-    CHOCOLATE_CANDY
+    CHOCOLATE_CANDY,
+    ROCK_CANDY,
+    CHOCO_CANDY
 };
 
 enum SpecialCandy
@@ -23,13 +25,13 @@ enum SpecialCandy
     PAPER_SPECIAL,
 };
 
-class CCandy// : public CButton
+class CCandy
 {
 public:
     CandyKind kind;
     SpecialCandy special;
 
-    CCandy()// : CButton( x, y, w, h )
+    CCandy()
     {
         kind=NO_CANDY;
         special=NO_SPECIAL;

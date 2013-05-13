@@ -375,7 +375,7 @@ void ClearAll(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30])
     }
 }
 
-void ClearOne(CGrid map[][10], int m, int n, ClearType clear, SDL_Surface *images[], SDL_Rect clips[][30])
+void ClearOneTag(CGrid map[][10], int m, int n, ClearType clear, SDL_Surface *images[], SDL_Rect clips[][30])
 {
     int direct[2][2]={{0, 1}, {1, 0}};
     int fourDirect[4][2]={{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
@@ -427,11 +427,35 @@ void ClearOne(CGrid map[][10], int m, int n, ClearType clear, SDL_Surface *image
                 x++;
                 y++;
             }
-
+            x=m;
+            y=n;
+            x--; y--;
+            while(map[x][y].candy.kind == map[m][n].candy.kind){
+                map[x][y].clear=true;
+                for(int d=0; d<4; d++){
+                    if(!isNO_GRID(map[x][y])){
+                        map[x-direct[d][0]][y-direct[d][1]].edgeClear=true;
+                    }
+                }
+            }
             break;
         }
         case NO_CLEAR:{
             break;
+        }
+    }
+}
+
+void ClearCandy(CGrid map[][10])
+{
+    for(int i=0; i<10; i++){
+        for(int j=0; j<10; j++){
+            if(!isNO_GRID(map[i][j])) continue;
+            if(map[i][j].clear){
+                if(map[i][j].extra == NO_EXTRA){
+                    //map[i][j].
+                }
+            }
         }
     }
 }

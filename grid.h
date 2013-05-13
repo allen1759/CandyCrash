@@ -9,14 +9,12 @@ enum GridKind
     NO_GRID,
     NORMAL_GRID,
     JELLY_GRID,
-    JELLY2_GRID,
-    ROCK_GRID
+    JELLY2_GRID
 };
 enum GridExtra
 {
     NO_EXTRA,
-    ROPE_EXTRA,
-    CHOCO_EXTRA
+    ROPE_EXTRA
 };
 
 class CGrid : public CButton
@@ -32,6 +30,7 @@ public:
     void SetGridKind(GridKind kind);
     void SetGridExtra(GridExtra extra);
     void CleanCandy();
+    void CleanEdge();
 };
 
 #endif // GRID_H_INCLUDED
