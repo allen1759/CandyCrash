@@ -228,23 +228,23 @@ ClearType isClear(CGrid map[][10], int m, int n, int changeDirect[])
     for(int i=0; i<4; i++){
         if(map[m][n].candy.kind == CHOCOLATE_CANDY){
             if(map[m+changeDirect[0]][n+changeDirect[1]].candy.kind == CHOCOLATE_CANDY){
-
+                ChangeCandy(map, m, n, revChangeDirect);
                 return CHOCO_CHO_CLEAR;
             }
             else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == PAPER_SPECIAL){
-
+                ChangeCandy(map, m, n, revChangeDirect);
                 return CHOCO_PAP_CLEAR;
             }
             else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == HORIZON_SPECIAL){
-
+                ChangeCandy(map, m, n, revChangeDirect);
                 return CHOCO_HOR_CLEAR;
             }
             else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == VERTICAL_SPECIAL){
-
+                ChangeCandy(map, m, n, revChangeDirect);
                 return CHOCO_VER_CLEAR;
             }
             else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == NO_SPECIAL){
-
+                ChangeCandy(map, m, n, revChangeDirect);
                 return CHOCO_ONE_CLEAR;
             }
         }
@@ -364,6 +364,110 @@ bool SelectGrid(int &prem, int &pren, CGrid map[][10], SDL_Event &event, SDL_Sur
     }
     return true;
 }
+
+void ClearAll(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30])
+{
+    for(int i=0; i<10; i++){
+        for(int j=0; j<10; j++){
+            if(isNO_GRID(map[i][j])) continue;
+
+        }
+    }
+}
+
+void ClearOne(CGrid map[][10], int m, int n, ClearType clear, SDL_Surface *images[], SDL_Rect clips[][30])
+{
+    int direct[2][2]={{0, 1}, {1, 0}};
+    int fourDirect[4][2]={{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    switch(clear)
+    {
+        case CHOCO_CHO_CLEAR:{
+            break;
+        }
+        case CHOCO_PAP_CLEAR:{
+            break;
+        }
+        case CHOCO_HOR_CLEAR:{
+            break;
+        }
+        case CHOCO_VER_CLEAR:{
+            break;
+        }
+        case CHOCO_ONE_CLEAR:{
+            break;
+        }
+        case PAP_HOR_CLEAR:{
+            break;
+        }
+        case PAP_VER_CLEAR:{
+            break;
+        }
+        case CHOCO_CLEAR:{
+            break;
+        }
+        case PAP_CLEAR:{
+            break;
+        }
+        case HOR_CLEAR:{
+            break;
+        }
+        case VER_CLEAR:{
+            break;
+        }
+        case THREE_CLEAR:{
+            int x=m, y=n;
+            x++; y++;
+            while(map[x][y].candy.kind == map[m][n].candy.kind){
+                map[x][y].clear=true;
+                for(int d=0; d<4; d++){
+                    if(!isNO_GRID(map[x][y])){
+                        map[x+direct[d][0]][y+direct[d][1]].edgeClear=true;
+                    }
+                }
+                x++;
+                y++;
+            }
+
+            break;
+        }
+        case NO_CLEAR:{
+            break;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

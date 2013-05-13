@@ -46,4 +46,5 @@ bool isNO_GRID(const CGrid &grid);
 bool xy2mn(CGrid map[][10], int x, int y, int &m, int &n);
 bool SelectGrid(int &prem, int &pren, CGrid map[][10], SDL_Event &event, SDL_Surface *images[], SDL_Rect clips[][30], bool &isSelect);
 
+
 #endif // GAME_H_INCLUDED

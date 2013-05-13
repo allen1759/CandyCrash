@@ -25,6 +25,8 @@ public:
     GridKind kind;
     GridExtra extra;
     CCandy candy;
+    bool clear;
+    bool edgeClear;
 
     CGrid();
     void SetGridKind(GridKind kind);
