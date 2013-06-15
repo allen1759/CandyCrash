@@ -45,6 +45,9 @@ int main( int argc, char* args[] )
     SetLevelMap(map, 0);
     SetLevelMap(map, 1);
 
+    map[4][4].candy.kind = NO_CANDY;
+    map[4][4].candy.special = NO_SPECIAL;
+
     ApplySurface(-300, -300, images[BACKGROUNG], images[SCREEN]);
     ApplyGrid(map, images, clips);
     ApplyMap(map, images, clips);
@@ -75,7 +78,12 @@ int main( int argc, char* args[] )
                 //Quit the program
                 quit = true;
             }
-            if(!SelectGrid(m, n, map, event, images, clips, isSelect)) return 1;
+            if( event.type == SDL_MOUSEBUTTONDOWN){
+                if(!SelectGrid(m, n, map, event, images, clips, isSelect)) return 1;
+                //SDL_Delay(3000);
+                //fallDown(map, images, clips);
+            }
+
         }
     }
 

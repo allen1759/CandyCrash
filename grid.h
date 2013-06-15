@@ -27,6 +27,7 @@ public:
     bool edgeClear;
 
     CGrid();
+    bool isNO_GRID()const {return kind==NO_GRID;}
     void SetGridKind(GridKind kind);
     void SetGridExtra(GridExtra extra);
     void CleanCandy();

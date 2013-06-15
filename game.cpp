@@ -77,8 +77,10 @@ void ApplyMap(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30])
     {
         for(int j=0; j<10; j++)
         {
-            if(map[i][j].kind != NO_GRID)
+            if(map[i][j].isNO_GRID()) continue;
+            if(map[i][j].candy.kind != NO_CANDY){
                 ApplySurface( 2+MAP_X+80*i, 2+MAP_Y+70*j, images[CANDYS], images[SCREEN], TransCandyClip(map[i][j].candy, clips) );
+            }
         }
     }
 }
@@ -96,12 +98,23 @@ void ApplyGrid(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30])
     }
 }
 
+bool isGridRange(CGrid map[][10], int m, int n)
+{
+    if(map[m][n].kind == NO_GRID) return false;
+    return true;
+}
 bool isGridRange(CGrid map[][10], int m, int n, int direct[])
 {
     if(map[m][n].kind == NO_GRID || map[m+direct[0]][n+direct[1]].kind == NO_GRID) return false;
     return true;
 }
 
+bool isChange(CGrid map[][10], int m, int n)
+{
+    if(!isGridRange(map, m, n)) return false;
+    if(map[m][n].candy.kind != NO_CANDY ) return true;
+    return false;
+}
 bool isChange(CGrid map[][10], int m, int n, int direct[])
 {
     if(!isGridRange(map, m, n, direct)) return false;
@@ -376,6 +389,7 @@ bool SelectGrid(int &prem, int &pren, CGrid map[][10], SDL_Event &event, SDL_Sur
 {
     int m, n;
     if(!xy2mn(map, event.motion.x, event.motion.y, m, n)) return true;
+    if(!isChange(map, m, n) && !isSelect) return true;
     if(map[m][n].IsPress(event)==LEFTPRESS){
         if(!isSelect){
             ApplySurface(2+MAP_X+80*m, 2+MAP_Y+70*n, images[CANDYS], images[SCREEN], &clips[0][SEPNG]);
@@ -388,6 +402,18 @@ bool SelectGrid(int &prem, int &pren, CGrid map[][10], SDL_Event &event, SDL_Sur
             }
         }
         else{
+            if(!isChange(map, m, n) && isSelect){
+                ApplyGrid(map, images, clips);
+                ApplyMap(map, images, clips);
+                prem=m;
+                pren=n;
+                isSelect=false;
+                if( SDL_Flip( images[SCREEN] ) == -1 )
+                {
+                    return false;
+                }
+                return true;
+            }
             ApplySurface(MAP_X+80*prem, MAP_Y+70*pren, images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
             if(map[prem][pren].extra!=NO_EXTRA){}
             ApplySurface(2+MAP_X+80*prem, 2+MAP_Y+70*pren, images[CANDYS], images[SCREEN], TransCandyClip(map[prem][pren].candy, clips));
@@ -505,7 +531,87 @@ void ClearCandy(CGrid map[][10])
     }
 }
 
+bool fallDown(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30])
+{
+    for(int i=0; i<10; i++){
+        for(int j=0; j<10; j++){
+            if(map[i][j].isNO_GRID()) continue;
+            if(map[i][j].candy.kind == NO_CANDY){
+                CCandy newCandy;
+                newCandy.special=NO_SPECIAL;
+                int kind=rand()%6;
+                switch(kind)
+                {
+                    case 0:{
+                        newCandy.kind=RED_CANDY;
+                    }
+                    case 1:{
+                        newCandy.kind=ORANGE_CANDY;
+                    }
+                    case 2:{
+                        newCandy.kind=YELLOW_CANDY;
+                    }
+                    case 3:{
+                        newCandy.kind=GREEN_CANDY;
+                    }
+                    case 4:{
+                        newCandy.kind=BLUE_CANDY;
+                    }
+                    case 5:{
+                        newCandy.kind=PURPLE_CANDY;
+                    }
+                }
 
+                Timer time;
+                double totalT=0.5;
+                int direct[2]={0, 1};           //fall down y+1
+                for(int k=0; k<(FRAMES_PER_SECOND*totalT); k++){
+                    time.start();
+
+                    ApplySurface(-300, -300, images[BACKGROUNG], images[SCREEN]);
+                    ApplyGrid(map, images, clips);
+                    ApplyMap(map, images, clips);
+                    for(int t=0; t<j; t++){
+                        ApplySurface(MAP_X+80*i, MAP_Y+70*t, images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
+                    }
+
+                    double movex = 80.f*direct[0]/FRAMES_PER_SECOND/totalT;
+                    double movey = 70.f*direct[1]/FRAMES_PER_SECOND/totalT;
+                    for(int t=0; t<j; t++){
+                        ApplySurface( (2+MAP_X+80*i)+k*movex, (2+MAP_Y+70*t)+k*movey, images[CANDYS], images[SCREEN], TransCandyClip(map[i][t].candy, clips) );
+                    }
+                    SDL_Delay(5000);
+
+                    if( SDL_Flip( images[SCREEN] ) == -1 )
+                    {
+                        return false;
+                    }
+                    if(time.getTicks() < 1000 / FRAMES_PER_SECOND)
+                    {
+                        SDL_Delay( ( 1000 / FRAMES_PER_SECOND ) - time.getTicks() );
+                    }
+                }
+
+                ApplySurface(-300, -300, images[BACKGROUNG], images[SCREEN]);
+                ApplyGrid(map, images, clips);
+                ApplyMap(map, images, clips);
+                for(int t=0; t<j; t++){
+                    ApplySurface(MAP_X+80*i, MAP_Y+70*t, images[ITEMS], images[SCREEN], &clips[1][GRIDPNG]);
+                }
+                for(int t=0; t<j; t++){
+                    ApplySurface( (2+MAP_X+80*i), (2+MAP_Y+70*(t+1)), images[CANDYS], images[SCREEN], TransCandyClip(map[i][t].candy, clips) );
+                }
+                if( SDL_Flip( images[SCREEN] ) == -1 )
+                {
+                    return false;
+                }
+                return true;
+
+
+            }
+        }
+    }
+}
 
 
 

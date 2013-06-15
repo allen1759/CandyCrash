@@ -6,6 +6,7 @@
 #include "file.h"
 #include "defineConst.h"
 
+#include <cstdlib>
 #include <string>
 #include <sstream>
 
@@ -34,10 +35,13 @@ enum ClearType
 
 bool InitGame(SDL_Surface *images[], SDL_Rect clips[][30], TTF_Font * &font);
 void Quit(SDL_Surface *images[], TTF_Font *font);
+
 SDL_Rect *TransCandyClip(CCandy &candy, SDL_Rect clips[][30]);
 void ApplyMap(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30]);
 void ApplyGrid(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30]);
+bool isGridRange(CGrid map[][10], int m, int n);
 bool isGridRange(CGrid map[][10], int m, int n, int direct[]);
+bool isChange(CGrid map[][10], int m, int n);
 bool isChange(CGrid map[][10], int m, int n, int direct[]);
 
 bool DisplayChange(CGrid map[][10], int m, int n, int direct[], SDL_Surface *images[], SDL_Rect clips[][30]);
@@ -48,6 +52,8 @@ ClearType isClear(CGrid map[][10], int m, int n, int changeDirect[]);
 bool isNO_GRID(const CGrid &grid);
 bool xy2mn(CGrid map[][10], int x, int y, int &m, int &n);
 bool SelectGrid(int &prem, int &pren, CGrid map[][10], SDL_Event &event, SDL_Surface *images[], SDL_Rect clips[][30], bool &isSelect);
+
+bool fallDown(CGrid map[][10], SDL_Surface *images[], SDL_Rect clips[][30]);
 
 
 #endif // GAME_H_INCLUDED
