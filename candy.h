@@ -13,6 +13,7 @@ enum CandyKind
     BLUE_CANDY,
     PURPLE_CANDY,
     CHOCOLATE_CANDY,
+
     ROCK_CANDY,
     CHOCO_CANDY
 };

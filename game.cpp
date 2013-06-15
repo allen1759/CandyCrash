@@ -249,13 +249,58 @@ ClearType isClear(CGrid map[][10], int m, int n, int changeDirect[])
             }
         }
         else if(map[m][n].candy.special == PAPER_SPECIAL){
-
+            if(map[m+changeDirect[0]][n+changeDirect[1]].candy.kind == CHOCOLATE_CANDY){
+                ChangeCandy(map, m, n, revChangeDirect);
+                return CHOCO_CHO_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == PAPER_SPECIAL){
+                ChangeCandy(map, m, n, revChangeDirect);
+                return PAP_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == HORIZON_SPECIAL){
+                ChangeCandy(map, m, n, revChangeDirect);
+                return PAP_HOR_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == VERTICAL_SPECIAL){
+                ChangeCandy(map, m, n, revChangeDirect);
+                return PAP_VER_CLEAR;
+            }
         }
         else if(map[m][n].candy.special == VERTICAL_SPECIAL){
-
+            if(map[m+changeDirect[0]][n+changeDirect[1]].candy.kind == CHOCOLATE_CANDY){
+                ChangeCandy(map, m, n, revChangeDirect);
+                return CHOCO_VER_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == PAPER_SPECIAL){
+                ChangeCandy(map, m, n, revChangeDirect);
+                return PAP_VER_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == HORIZON_SPECIAL){
+                ChangeCandy(map, m, n, revChangeDirect);
+                return HOR_VER_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == VERTICAL_SPECIAL){
+                ChangeCandy(map, m, n, revChangeDirect);
+                return HOR_VER_CLEAR;
+            }
         }
         else if(map[m][n].candy.special == HORIZON_SPECIAL){
-
+            if(map[m+changeDirect[0]][n+changeDirect[1]].candy.kind == CHOCOLATE_CANDY){
+                ChangeCandy(map, m, n, revChangeDirect);
+                return CHOCO_HOR_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == PAPER_SPECIAL){
+                ChangeCandy(map, m, n, revChangeDirect);
+                return PAP_HOR_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == HORIZON_SPECIAL){
+                ChangeCandy(map, m, n, revChangeDirect);
+                return HOR_VER_CLEAR;
+            }
+            else if(map[m+changeDirect[0]][n+changeDirect[1]].candy.special == VERTICAL_SPECIAL){
+                ChangeCandy(map, m, n, revChangeDirect);
+                return HOR_VER_CLEAR;
+            }
         }
     }
 
